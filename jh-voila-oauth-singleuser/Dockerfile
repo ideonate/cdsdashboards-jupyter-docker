@@ -1,4 +1,4 @@
-ARG BASE_REPO=jupyter/singleuser
+ARG BASE_REPO=jupyterhub/singleuser
 FROM $BASE_REPO
 
 RUN rm -rf /home/jovyan/work

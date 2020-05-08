@@ -18,12 +18,12 @@ do
 
     cp -r ../skeleton/* .
 
-    suffix="-notebook"
-    if [ $corename == "singleuser" ] ; then
-       suffix="" # It's just jupyter/singleuser (not-notebook)
-    fi
+    stacks_sed_reponame="jupyter\/${corename}-notebook"
 
-    stacks_sed_reponame="jupyter\/${corename}${suffix}"
+    if [ $corename == "singleuser" ] ; then
+       # It's just jupyterHUB/singleuser (not-notebook)
+       stacks_sed_reponame="jupyterhub\/singleuser"
+    fi
 
     echo $stacks_sed_reponame
 
