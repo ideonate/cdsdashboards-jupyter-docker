@@ -7,7 +7,7 @@ REPONAMES="jh-voila-oauth-r jh-voila-oauth-singleuser jh-voila-oauth-datascience
 
 for reponame in $REPONAMES
 do
-    echo "Replicating skelton to $reponame"
+    echo "Replicating skeleton to $reponame"
 
     corename="${reponame:15}"
 
@@ -18,7 +18,12 @@ do
 
     cp -r ../skeleton/* .
 
-    stacks_sed_reponame="jupyter\/${corename}-notebook"
+    suffix="-notebook"
+    if [ $corename == "singleuser" ] ; then
+       suffix="" # It's just jupyter/singleuser (not-notebook)
+    fi
+
+    stacks_sed_reponame="jupyter\/${corename}${suffix}"
 
     echo $stacks_sed_reponame
 
