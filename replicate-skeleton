@@ -1,0 +1,29 @@
+#!/bin/bash
+
+cd "${0%/*}"
+
+
+REPONAMES="jh-voila-oauth-r jh-voila-oauth-singleuser jh-voila-oauth-datascience jh-voila-oauth-scipy"
+
+for reponame in $REPONAMES
+do
+    echo "Replicating skelton to $reponame"
+
+    corename="${reponame:15}"
+
+    echo $corename
+
+    cd "$reponame"
+    pwd
+
+    cp -r ../skeleton/* .
+
+    stacks_sed_reponame="jupyter\/${corename}-notebook"
+
+    echo $stacks_sed_reponame
+
+    sed -i '' -e "s/{{TEMPLATE_BASE_REPO}}/$stacks_sed_reponame/g" Dockerfile
+
+    cd ..
+    echo
+done
