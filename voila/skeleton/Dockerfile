@@ -1,11 +1,11 @@
-ARG BASE_REPO=jupyter/r-notebook
+ARG BASE_REPO={{TEMPLATE_BASE_REPO}}
 FROM $BASE_REPO
 
 RUN rm -rf /home/jovyan/work
 
 RUN conda install --quiet --yes -c conda-forge voila
 
-RUN pip install jhsingle-native-proxy==0.1.1 voila-materialstream
+RUN pip install jhsingle-native-proxy voila-materialstream
 
 COPY voila-entrypoint.sh /opt/conda/bin
 
@@ -21,3 +21,6 @@ COPY voila.json /etc/jupyter
 # Fix permissions on /etc/jupyter as root
 USER root
 RUN fix-permissions /etc/jupyter/
+
+# Switch back to jovyan to avoid accidental container runs as root
+USER $NB_UID
