@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./all
           repository: ideonate/containds-all-basic
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:${{ github.ref }}
+          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ github.sha }}
           tag_with_ref: true
           tag_with_sha: true
 
