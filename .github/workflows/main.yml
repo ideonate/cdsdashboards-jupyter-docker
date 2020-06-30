@@ -33,6 +33,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+          
+      - name: Get short sha
+        run: |
+         echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+         
       - name: Step containds-all-basic 
         uses: docker/build-push-action@v1
         with:
@@ -40,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./all
           repository: ideonate/containds-all-basic
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ github.sha::7 }}
+          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ steps.vars.outputs.sha_short }}
           tag_with_ref: true
           tag_with_sha: true
 
