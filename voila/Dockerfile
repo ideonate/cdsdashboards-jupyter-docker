@@ -5,7 +5,7 @@ RUN rm -rf /home/jovyan/work
 
 RUN conda install --quiet --yes -c conda-forge voila
 
-RUN pip install jhsingle-native-proxy>=0.3.1 voila-materialstream
+RUN pip install jhsingle-native-proxy>=0.3.2 voila-materialstream>=0.2.6
 
 COPY voila-entrypoint.sh /opt/conda/bin
 

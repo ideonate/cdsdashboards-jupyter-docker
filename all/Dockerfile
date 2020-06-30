@@ -5,9 +5,9 @@ USER root
 
 RUN pip install streamlit
 
-RUN pip install dash plotlydash-tornado-cmd
+RUN pip install dash plotlydash-tornado-cmd>=0.0.4
 
-RUN pip install bokeh panel bokeh-root-cmd
+RUN pip install bokeh panel bokeh-root-cmd>=0.0.5
 
 COPY streamlit-entrypoint.sh /opt/conda/bin
 
