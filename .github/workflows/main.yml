@@ -4,29 +4,29 @@ on: push
 
 jobs:
   
-#  build_voila:
-#    name: Build and Push jh-voila-oauth-singleuser
-#    runs-on: ubuntu-18.04
-#    steps:
-#      - name: Checkout repo
-#        uses: actions/checkout@v2
-#        with:
-#          ref: ${{ github.event.pull_request.head.ref }}
-#          fetch-depth: 0
-#      - name: Build jh-voila-oauth-singleuser 
-#        uses: docker/build-push-action@v1
-#        with:
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
-#          path: ./voila
-#          repository: ideonate/jh-voila-oauth-singleuser
-#          build_args: BASE_REPO=jupyterhub/singleuser:1.2
-#          tag_with_ref: true
-#          tag_with_sha: true
+  build_voila:
+    name: Build and Push jh-voila-oauth-singleuser
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Build jh-voila-oauth-singleuser 
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./voila
+          repository: ideonate/jh-voila-oauth-singleuser
+          build_args: BASE_REPO=jupyterhub/singleuser:1.2
+          tag_with_ref: true
+          tag_with_sha: true
 
   build_all:
     name: Build and Push containds-all-basic
-#    needs: build_voila
+    needs: build_voila
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout repo
@@ -35,7 +35,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
           
-      - name: Get short sha
+      - name: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
          
       - name: Step containds-all-basic 
@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./all
           repository: ideonate/containds-all-basic
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ steps.vars.outputs.sha_short }}
+          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ steps.getshortsha.outputs.sha_short }}
           tag_with_ref: true
           tag_with_sha: true
 
