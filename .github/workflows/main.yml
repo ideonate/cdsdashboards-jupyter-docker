@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./voila
           repository: ideonate/jh-voila-oauth-singleuser
-          build_args: BASE_REPO=jupyter/singleuser:1.2
+          build_args: BASE_REPO=jupyterhub/singleuser:1.2
           tag_with_ref: true
           tag_with_sha: true
 
