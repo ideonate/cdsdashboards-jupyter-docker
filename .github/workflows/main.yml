@@ -6,13 +6,12 @@ jobs:
   
   build_voila:
     name: Build and Push jh-voila-oauth-singleuser
+    if: ''
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
+
       - name: Build jh-voila-oauth-singleuser 
         uses: docker/build-push-action@v1
         with:
@@ -26,16 +25,14 @@ jobs:
 
   build_all:
     name: Build and Push containds-all-basic
-    needs: build_voila
+    #needs: build_voila
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
           
-      - name: getshortsha
+      - name: Get Short SHA
+        id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
          
       - name: Step containds-all-basic 
