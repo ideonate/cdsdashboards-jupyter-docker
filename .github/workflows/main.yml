@@ -3,29 +3,30 @@ name: Build and push Docker images
 on: push
 
 jobs:
-  build_voila:
-    name: Build and Push jh-voila-oauth-singleuser
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-      - name: Build jh-voila-oauth-singleuser 
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./voila
-          repository: ideonate/jh-voila-oauth-singleuser
-          build_args: BASE_REPO=jupyterhub/singleuser:1.2
-          tag_with_ref: true
-          tag_with_sha: true
+  
+#  build_voila:
+#    name: Build and Push jh-voila-oauth-singleuser
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: Checkout repo
+#        uses: actions/checkout@v2
+#        with:
+#          ref: ${{ github.event.pull_request.head.ref }}
+#          fetch-depth: 0
+#      - name: Build jh-voila-oauth-singleuser 
+#        uses: docker/build-push-action@v1
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          path: ./voila
+#          repository: ideonate/jh-voila-oauth-singleuser
+#          build_args: BASE_REPO=jupyterhub/singleuser:1.2
+#          tag_with_ref: true
+#          tag_with_sha: true
 
   build_all:
     name: Build and Push containds-all-basic
-    needs: build_voila
+#    needs: build_voila
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout repo
