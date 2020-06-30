@@ -35,8 +35,7 @@ jobs:
           fetch-depth: 0
           
       - name: Get short sha
-        run: |
-         echo ::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})
+        run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
          
       - name: Step containds-all-basic 
         uses: docker/build-push-action@v1
