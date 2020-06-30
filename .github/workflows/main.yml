@@ -7,7 +7,12 @@ jobs:
     name: Build and Push jh-voila-oauth-singleuser
     runs-on: ubuntu-18.04
     steps:
-      - name: Step jh-voila-oauth-singleuser 
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Build jh-voila-oauth-singleuser 
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -23,6 +28,11 @@ jobs:
     needs: build_voila
     runs-on: ubuntu-18.04
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
       - name: Step containds-all-basic 
         uses: docker/build-push-action@v1
         with:
