@@ -141,11 +141,54 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./all
+          path: ./rshiny
           repository: ideonate/containds-rshiny
           build_args: BASE_REPO=ideonate/jh-voila-oauth-r:sha-${{ steps.getshortsha.outputs.sha_short }}
           tag_with_ref: true
           tag_with_sha: true
 
 
+  build_scipyr_notebook:
+    name: Build and Push scipyr-notebook
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
+      - name: Get Short SHA
+        id: getshortsha
+        run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
+          
+      - name: Step docker build scipyr-notebook
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./scipyr-notebook
+          repository: ideonate/scipyr-notebook
+          tag_with_ref: true
+          tag_with_sha: true
+          push: false
+
+      - name: Step docker build all parts
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./all
+          repository: ideonate/scipyr-notebook-all
+          build_args: BASE_REPO=ideonate/scipyr-notebook:sha-${{ steps.getshortsha.outputs.sha_short }}
+          tag_with_ref: true
+          tag_with_sha: true
+          push: false
+
+      - name: Step docker build rshiny parts
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./rshiny
+          repository: ideonate/containds-allr-scipyr
+          build_args: BASE_REPO=ideonate/scipyr-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
+          tag_with_ref: true
+          tag_with_sha: true
