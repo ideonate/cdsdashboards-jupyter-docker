@@ -19,3 +19,11 @@ all (Using either Voila, Streamlit, Bokeh/Panel, or Plotly Dash as the presentat
 r (Using Voila or R Shiny Server)
 
 - [containds-rshiny](https://hub.docker.com/r/ideonate/containds-rshiny) (R environment)
+
+allr (Using a full combination of all the Python and R Shiny presentation types)
+
+- [containds-allr-scipyr](https://hub.docker.com/r/ideonate/containds-allr-scipyr) (SciPy plus R environment)
+
+There is a tag for each commit SHA in this repo, and also a tag for each release of [ContainDS Dashboards](https://github.com/ideonate/cdsdashboards).
+
+For example, use ideonate/containds-all-basic:0.0.20 as the singleuser image if your JupyterHub is running cdsdashboards version 0.0.20.
