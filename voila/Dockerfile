@@ -7,8 +7,6 @@ RUN conda install --quiet --yes -c conda-forge voila
 
 RUN pip install jhsingle-native-proxy>=0.3.2 voila-materialstream>=0.2.6
 
-COPY voila-entrypoint.sh /opt/conda/bin
-
 
 USER $NB_UID
 COPY jupyter_notebook_config_extra.py /etc/jupyter/

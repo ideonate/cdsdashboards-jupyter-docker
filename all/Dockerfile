@@ -9,11 +9,5 @@ RUN pip install dash plotlydash-tornado-cmd>=0.0.4
 
 RUN pip install bokeh panel bokeh-root-cmd>=0.0.5
 
-COPY streamlit-entrypoint.sh /opt/conda/bin
-
-COPY plotlydash-entrypoint.sh /opt/conda/bin
-
-COPY bokeh-entrypoint.sh /opt/conda/bin
-
 # Switch back to jovyan to avoid accidental container runs as root
 USER $NB_UID
