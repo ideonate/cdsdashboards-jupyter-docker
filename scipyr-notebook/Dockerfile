@@ -42,9 +42,9 @@ RUN conda install --quiet --yes \
     'r-rsqlite=2.2*' \
     'r-shiny=1.4*' \
     'r-tidyverse=1.3*' \
-    'r-plyr=1.8*' \ # From datascience
-    'r-reshape2=1.4*' \ # From datascience
-    'rpy2=3.1*' \ # From datascience
+    'r-plyr=1.8*' \
+    'r-reshape2=1.4*' \
+    'rpy2=3.1*' \
     'unixodbc=2.3.*' \
     'r-tidymodels=0.1*' \
     && \
