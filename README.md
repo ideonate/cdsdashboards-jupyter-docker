@@ -22,7 +22,7 @@ r (Using Voila or R Shiny Server)
 
 allr (Using a full combination of all the Python and R Shiny presentation types)
 
-- [containds-allr-scipyr](https://hub.docker.com/r/ideonate/containds-allr-scipyr) (SciPy plus R environment)
+- [containds-allr-datascience](https://hub.docker.com/r/ideonate/containds-allr-datascience) (SciPy plus R environment)
 
 There is a tag for each commit SHA in this repo, and also a tag for each release of [ContainDS Dashboards](https://github.com/ideonate/cdsdashboards).
 
