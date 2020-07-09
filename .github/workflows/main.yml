@@ -159,25 +159,14 @@ jobs:
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
           
-      - name: Step docker build scipyr-notebook
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./scipyr-notebook
-          repository: ideonate/scipyr-notebook
-          tag_with_ref: true
-          tag_with_sha: true
-          push: true
-
       - name: Step docker build all parts
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./voila
-          repository: ideonate/scipyr-notebook-voila
-          build_args: BASE_REPO=ideonate/scipyr-notebook:sha-${{ steps.getshortsha.outputs.sha_short }}
+          repository: ideonate/datascience-notebook-voila
+          build_args: BASE_REPO=jupyter/datascience-notebook:latest
           tag_with_ref: true
           tag_with_sha: true
           push: false
@@ -188,8 +177,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./all
-          repository: ideonate/scipyr-notebook-all
-          build_args: BASE_REPO=ideonate/scipyr-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
+          repository: ideonate/datascience-notebook-all
+          build_args: BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           tag_with_ref: true
           tag_with_sha: true
           push: false
@@ -200,7 +189,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           path: ./rshiny
-          repository: ideonate/containds-allr-scipyr
-          build_args: BASE_REPO=ideonate/scipyr-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
+          repository: ideonate/containds-allr-datascience
+          build_args: BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
           tag_with_ref: true
           tag_with_sha: true
