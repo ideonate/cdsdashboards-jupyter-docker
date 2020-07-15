@@ -1,9 +1,10 @@
 ARG BASE_REPO=jupyterhub/singleuser
 FROM $BASE_REPO
 
-RUN rm -rf /home/jovyan/work
+# git is now used to source files for cdsdashboards
+RUN conda install --quiet --yes -c conda-forge git voila
 
-RUN conda install --quiet --yes -c conda-forge voila
+RUN rm -rf /home/jovyan/work
 
 RUN pip install jhsingle-native-proxy>=0.3.2 voila-materialstream>=0.2.6
 
