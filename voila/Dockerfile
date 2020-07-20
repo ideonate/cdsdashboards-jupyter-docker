@@ -6,7 +6,7 @@ RUN conda install --quiet --yes -c conda-forge git voila
 
 RUN rm -rf /home/jovyan/work
 
-RUN pip install jhsingle-native-proxy>=0.3.2 voila-materialstream>=0.2.6
+RUN pip install jhsingle-native-proxy>=0.4.1 voila-materialstream>=0.2.6
 
 
 USER $NB_UID
