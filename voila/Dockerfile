@@ -16,6 +16,9 @@ RUN rm /etc/jupyter/jupyter_notebook_config_extra.py
 
 COPY voila.json /etc/jupyter
 
+# Install Voila and ContainDS JupyterLab extensions
+
+RUN jupyter labextension install @jupyter-voila/jupyterlab-preview @ideonate/jupyter-containds
 
 # Fix permissions on /etc/jupyter as root
 USER root
