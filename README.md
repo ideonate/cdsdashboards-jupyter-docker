@@ -27,3 +27,4 @@ allr (Using a full combination of all the Python and R Shiny presentation types)
 There is a tag for each commit SHA in this repo, and also a tag for each release of [ContainDS Dashboards](https://github.com/ideonate/cdsdashboards).
 
 For example, use ideonate/containds-all-basic:0.0.20 as the singleuser image if your JupyterHub is running cdsdashboards version 0.0.20.
+
