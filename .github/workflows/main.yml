@@ -46,17 +46,34 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/jh-voila-oauth-r
+          tag-sha: true
 
-      - name: Build docker 
-        uses: docker/build-push-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./voila
-          repository: ideonate/jh-voila-oauth-r
-          build_args: BASE_REPO=jupyter/r-notebook:latest
-          tag_with_ref: true
-          tag_with_sha: true
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./voila
+          file: ./voila/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=jupyterhub/r-notebook:latest
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   build_voila_datascience:
     name: Build and Push jh-voila-oauth-datascience
@@ -64,17 +81,34 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/jh-voila-oauth-datascience
+          tag-sha: true
 
-      - name: Build docker 
-        uses: docker/build-push-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./voila
-          repository: ideonate/jh-voila-oauth-datascience
-          build_args: BASE_REPO=jupyter/datascience-notebook:latest
-          tag_with_ref: true
-          tag_with_sha: true
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./voila
+          file: ./voila/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=jupyterhub/datascience-notebook:latest
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   build_voila_scipy:
     name: Build and Push jh-voila-oauth-scipy
@@ -83,17 +117,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Build docker 
-        uses: docker/build-push-action@v1
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/jh-voila-oauth-scipy
+          tag-sha: true
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./voila
-          repository: ideonate/jh-voila-oauth-scipy
-          build_args: BASE_REPO=jupyter/scipy-notebook:latest
-          tag_with_ref: true
-          tag_with_sha: true
-
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./voila
+          file: ./voila/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=jupyterhub/scipy-notebook:latest
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   build_all_basic:
     name: Build and Push containds-all-basic
@@ -106,17 +157,35 @@ jobs:
       - name: Get Short SHA
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-         
-      - name: Step docker build 
-        uses: docker/build-push-action@v1
+
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/containds-all-basic
+          tag-sha: true
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./all
-          repository: ideonate/containds-all-basic
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ steps.getshortsha.outputs.sha_short }}
-          tag_with_ref: true
-          tag_with_sha: true
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./all
+          file: ./all/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=ideonate/jh-voila-oauth-singleuser:sha-${{ steps.getshortsha.outputs.sha_short }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   build_all_scipy:
     name: Build and Push containds-all-scipy
@@ -129,17 +198,35 @@ jobs:
       - name: Get Short SHA
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-         
-      - name: Step docker build 
-        uses: docker/build-push-action@v1
+
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/containds-all-scipy
+          tag-sha: true
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./all
-          repository: ideonate/containds-all-scipy
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-scipy:sha-${{ steps.getshortsha.outputs.sha_short }}
-          tag_with_ref: true
-          tag_with_sha: true
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./all
+          file: ./all/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=ideonate/jh-voila-oauth-scipy:sha-${{ steps.getshortsha.outputs.sha_short }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
 
   build_rshiny:
@@ -153,18 +240,36 @@ jobs:
       - name: Get Short SHA
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-         
-      - name: Step docker build 
-        uses: docker/build-push-action@v1
+
+
+      -
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/containds-rshiny
+          tag-sha: true
+
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./rshiny
-          repository: ideonate/containds-rshiny
-          build_args: BASE_REPO=ideonate/jh-voila-oauth-r:sha-${{ steps.getshortsha.outputs.sha_short }}
-          tag_with_ref: true
-          tag_with_sha: true
-
+          
+      - name: Build docker 
+        uses: docker/build-push-action@v2
+        with:
+          context: ./all
+          file: ./all/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          build-args: |
+            BASE_REPO=ideonate/jh-voila-oauth-r:sha-${{ steps.getshortsha.outputs.sha_short }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   build_scipyr_notebook:
     name: Build and Push scipyr-notebook
@@ -176,38 +281,71 @@ jobs:
       - name: Get Short SHA
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-          
-      - name: Step docker build all parts
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./voila
-          repository: ideonate/datascience-notebook-voila
-          build_args: BASE_REPO=jupyter/datascience-notebook:latest
-          tag_with_ref: true
-          tag_with_sha: true
-          push: false
 
-      - name: Step docker build all parts
-        uses: docker/build-push-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./all
-          repository: ideonate/datascience-notebook-all
-          build_args: BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
-          tag_with_ref: true
-          tag_with_sha: true
-          push: false
 
-      - name: Step docker build rshiny parts
-        uses: docker/build-push-action@v1
+      -
+        name: Docker meta 1
+        id: docker_meta1
+        uses: crazy-max/ghaction-docker-meta@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          path: ./rshiny
-          repository: ideonate/containds-allr-datascience
-          build_args: BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
-          tag_with_ref: true
-          tag_with_sha: true
+          images: ideonate/datascience-notebook-voila
+          tag-sha: true
+
+      - name: Build docker 1
+        uses: docker/build-push-action@v2
+        with:
+          context: ./voila
+          file: ./voila/Dockerfile
+          push: false
+          tags: ${{ steps.docker_meta1.outputs.tags }}
+          build-args: |
+            BASE_REPO=jupyter/datascience-notebook:latest
+          labels: ${{ steps.docker_meta1.outputs.labels }}
+
+      -
+        name: Docker meta 2
+        id: docker_meta2
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/datascience-notebook-all
+          tag-sha: true
+
+      - name: Build docker 2
+        uses: docker/build-push-action@v2
+        with:
+          context: ./all
+          file: ./all/Dockerfile
+          push: false
+          tags: ${{ steps.docker_meta2.outputs.tags }}
+          build-args: |
+            BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
+          labels: ${{ steps.docker_meta2.outputs.labels }}
+
+      -
+        name: Docker meta 3
+        id: docker_meta3
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/containds-allr-datascience
+          tag-sha: true
+
+      - name: Build docker 3
+        uses: docker/build-push-action@v2
+        with:
+          context: ./rshiny
+          file: ./rshiny/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta3.outputs.tags }}
+          build-args: |
+            BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
+          labels: ${{ steps.docker_meta3.outputs.labels }}
+
