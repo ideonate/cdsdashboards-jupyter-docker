@@ -33,7 +33,7 @@ jobs:
           context: ./voila
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
-          build_args: |
+          build-args: |
             BASE_REPO=jupyterhub/singleuser:1.2
           labels: ${{ steps.docker_meta.outputs.labels }}
 
