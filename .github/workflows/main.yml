@@ -310,7 +310,7 @@ jobs:
           build-args: |
             BASE_REPO=jupyter/datascience-notebook:latest
           labels: ${{ steps.docker_meta1.outputs.labels }}
-          cache-to: repository
+          load: true
 
       -
         name: Docker meta 2
@@ -330,7 +330,7 @@ jobs:
           build-args: |
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta2.outputs.labels }}
-          cache-to: repository
+          load: true
 
       -
         name: Docker meta 3
