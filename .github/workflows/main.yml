@@ -31,6 +31,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./voila
+          file: ./voila/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.docker_meta.outputs.tags }}
           build-args: |
