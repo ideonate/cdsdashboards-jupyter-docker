@@ -310,7 +310,7 @@ jobs:
             BASE_REPO=jupyter/datascience-notebook:latest
           labels: ${{ steps.docker_meta1.outputs.labels }}
           load: true
-          cache-to: type=local,src=docker
+          cache-to: type=local,dest=docker
 
       -
         name: Docker meta 2
@@ -330,7 +330,7 @@ jobs:
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta2.outputs.labels }}
           load: true
-          cache-to: type=local,src=docker
+          cache-to: type=local,dest=docker
           cache-from: type=local,src=docker
 
       -
