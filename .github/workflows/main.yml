@@ -329,6 +329,7 @@ jobs:
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta2.outputs.labels }}
           load: true
+          cache-from: type=local,src=docker
 
       -
         name: Docker meta 3
@@ -348,4 +349,5 @@ jobs:
           build-args: |
             BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta3.outputs.labels }}
+          cache-from: type=local,src=docker
 
