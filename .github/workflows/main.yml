@@ -11,25 +11,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       -
-        name: Prepare
-        id: prep
-        run: |
-          DOCKER_IMAGE=ideonate/jh-voila-oauth-singleuser
-          VERSION=edge
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/}
-          elif [[ $GITHUB_REF == refs/heads/* ]]; then
-            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
-          elif [[ $GITHUB_REF == refs/pull/* ]]; then
-            VERSION=pr-${{ github.event.number }}
-          fi
-          TAGS="${DOCKER_IMAGE}:${VERSION}"
-          if [ "${{ github.event_name }}" = "push" ]; then
-            TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
-          fi
-          echo ::set-output name=version::${VERSION}
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+        name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ideonate/jh-voila-oauth-singleuser
 
       -
         name: Set up Docker Buildx
@@ -44,15 +30,13 @@ jobs:
       - name: Build docker 
         uses: docker/build-push-action@v2
         with:
-          path: ./voila
+          context: ./voila
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
           build_args: |
             BASE_REPO=jupyterhub/singleuser:1.2
-          labels: |
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
-            org.opencontainers.image.revision=${{ github.sha }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
 
   build_voila_r:
     name: Build and Push jh-voila-oauth-r
