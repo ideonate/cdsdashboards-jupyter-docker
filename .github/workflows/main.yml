@@ -305,7 +305,6 @@ jobs:
         with:
           context: ./voila
           file: ./voila/Dockerfile
-          push: false
           tags: ${{ steps.docker_meta1.outputs.tags }}
           build-args: |
             BASE_REPO=jupyter/datascience-notebook:latest
@@ -325,7 +324,6 @@ jobs:
         with:
           context: ./all
           file: ./all/Dockerfile
-          push: false
           tags: ${{ steps.docker_meta2.outputs.tags }}
           build-args: |
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
