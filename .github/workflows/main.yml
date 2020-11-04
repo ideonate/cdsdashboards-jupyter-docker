@@ -320,8 +320,8 @@ jobs:
             BASE_REPO=jupyter/datascience-notebook:latest
           labels: ${{ steps.docker_meta1.outputs.labels }}
           load: true
-          cache-to: type=local,src=/tmp/.buildx-cache
-          cache-from: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
 
       -
         name: Docker meta 2
@@ -341,8 +341,8 @@ jobs:
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta2.outputs.labels }}
           load: true
-          cache-to: type=local,src=/tmp/.buildx-cache
-          cache-from: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
 
       -
         name: Docker meta 3
@@ -362,6 +362,6 @@ jobs:
           build-args: |
             BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta3.outputs.labels }}
-          cache-to: type=local,src=/tmp/.buildx-cache
-          cache-from: type=local,dest=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          cache-from: type=local,src=/tmp/.buildx-cache
 
