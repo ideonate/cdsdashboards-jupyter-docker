@@ -293,6 +293,16 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       -
+        name: Cache Docker layers
+        uses: actions/cache@v2
+        id: cache
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      -
         name: Docker meta 1
         id: docker_meta1
         uses: crazy-max/ghaction-docker-meta@v1
@@ -310,7 +320,8 @@ jobs:
             BASE_REPO=jupyter/datascience-notebook:latest
           labels: ${{ steps.docker_meta1.outputs.labels }}
           load: true
-          cache-to: type=local,dest=docker
+          cache-to: type=local,src=/tmp/.buildx-cache
+          cache-from: type=local,dest=/tmp/.buildx-cache
 
       -
         name: Docker meta 2
@@ -330,8 +341,8 @@ jobs:
             BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta2.outputs.labels }}
           load: true
-          cache-to: type=local,dest=docker
-          cache-from: type=local,src=docker
+          cache-to: type=local,src=/tmp/.buildx-cache
+          cache-from: type=local,dest=/tmp/.buildx-cache
 
       -
         name: Docker meta 3
@@ -351,5 +362,6 @@ jobs:
           build-args: |
             BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
           labels: ${{ steps.docker_meta3.outputs.labels }}
-          cache-from: type=local,src=docker
+          cache-to: type=local,src=/tmp/.buildx-cache
+          cache-from: type=local,dest=/tmp/.buildx-cache
 
