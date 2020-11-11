@@ -281,87 +281,38 @@ jobs:
       - name: Get Short SHA
         id: getshortsha
         run: echo "::set-output name=sha_short::$(git rev-parse --short=7 ${{ github.sha }})"
-
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v1
+          
+      - name: Step docker build all parts
+        uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./voila
+          repository: ideonate/datascience-notebook-voila
+          build_args: BASE_REPO=jupyter/datascience-notebook:latest
+          tag_with_ref: true
+          tag_with_sha: true
+          push: false
 
-      -
-        name: Cache Docker layers
-        uses: actions/cache@v2
-        id: cache
+      - name: Step docker build all parts
+        uses: docker/build-push-action@v1
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./all
+          repository: ideonate/datascience-notebook-all
+          build_args: BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
+          tag_with_ref: true
+          tag_with_sha: true
+          push: false
 
-      -
-        name: Docker meta 1
-        id: docker_meta1
-        uses: crazy-max/ghaction-docker-meta@v1
+      - name: Step docker build rshiny parts
+        uses: docker/build-push-action@v1
         with:
-          images: ideonate/datascience-notebook-voila
-          tag-sha: true
-
-      - name: Build docker 1
-        uses: docker/build-push-action@v2
-        with:
-          context: ./voila
-          file: ./voila/Dockerfile
-          tags: ${{ steps.docker_meta1.outputs.tags }}
-          build-args: |
-            BASE_REPO=jupyter/datascience-notebook:latest
-          labels: ${{ steps.docker_meta1.outputs.labels }}
-          load: true
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          cache-from: type=local,src=/tmp/.buildx-cache
-
-      -
-        name: Docker meta 2
-        id: docker_meta2
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ideonate/datascience-notebook-all
-          tag-sha: true
-
-      - name: Build docker 2
-        uses: docker/build-push-action@v2
-        with:
-          context: ./all
-          file: ./all/Dockerfile
-          tags: ${{ steps.docker_meta2.outputs.tags }}
-          build-args: |
-            BASE_REPO=ideonate/datascience-notebook-voila:sha-${{ steps.getshortsha.outputs.sha_short }}
-          labels: ${{ steps.docker_meta2.outputs.labels }}
-          load: true
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          cache-from: type=local,src=/tmp/.buildx-cache
-
-      -
-        name: Docker meta 3
-        id: docker_meta3
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ideonate/containds-allr-datascience
-          tag-sha: true
-
-      - name: Build docker 3
-        uses: docker/build-push-action@v2
-        with:
-          context: ./rshiny
-          file: ./rshiny/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta3.outputs.tags }}
-          build-args: |
-            BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
-          labels: ${{ steps.docker_meta3.outputs.labels }}
-          cache-to: type=local,dest=/tmp/.buildx-cache
-          cache-from: type=local,src=/tmp/.buildx-cache
-
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          path: ./rshiny
+          repository: ideonate/containds-allr-datascience
+          build_args: BASE_REPO=ideonate/datascience-notebook-all:sha-${{ steps.getshortsha.outputs.sha_short }}
+          tag_with_ref: true
+          tag_with_sha: true
