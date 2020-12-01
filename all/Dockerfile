@@ -5,7 +5,7 @@ USER $NB_UID
 
 RUN pip install streamlit
 
-RUN pip install dash plotlydash-tornado-cmd>=0.0.4
+RUN pip install dash plotlydash-tornado-cmd>=0.0.6
 
 RUN pip install bokeh panel bokeh-root-cmd>=0.0.5
 
