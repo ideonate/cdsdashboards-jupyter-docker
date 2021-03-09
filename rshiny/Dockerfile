@@ -12,5 +12,5 @@ RUN curl --silent --location --fail https://download3.rstudio.org/ubuntu-14.04/x
 # Switch back to jovyan to avoid accidental container runs as root; also pip doesn't need root
 USER $NB_UID
 
-RUN pip install rshiny-server-cmd>=0.0.2
+RUN pip install 'rshiny-server-cmd>=0.0.2'
 
