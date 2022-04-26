@@ -11,7 +11,7 @@ voila (Using Voila as the presentation type)
 - [jh-voila-oauth-datascience](https://hub.docker.com/r/ideonate/jh-voila-oauth-datascience) (More than just Python)
 - [jh-voila-oauth-r](https://hub.docker.com/r/ideonate/jh-voila-oauth-r) (R language)
 
-all (Using either Voila, Streamlit, Bokeh/Panel, or Plotly Dash as the presentation type)
+all (Using either Voila, Streamlit, Bokeh/Panel, or Plotly Dash as the presentation type) 
 
 - [containds-all-basic](https://hub.docker.com/r/ideonate/containds-all-basic) (Standard Python environment)
 - [containds-all-scipy](https://hub.docker.com/r/ideonate/containds-all-scipy) (Extra scientific Python packages installed)
